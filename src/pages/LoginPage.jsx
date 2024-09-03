@@ -2,6 +2,7 @@ import { useForm } from "react-hook-form";
 import { loginUser } from "../api";
 import { useNavigate } from "react-router-dom";
 import clsx from "clsx";
+import { useState } from "react";
 
 export default function LoginPage() {
   const {
@@ -11,21 +12,28 @@ export default function LoginPage() {
     setError,
   } = useForm();
   const navigate = useNavigate();
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   function onSubmit(data) {
+    setIsSubmitting(true);
     loginUser(data.username, data.password)
       .then((token) => {
         if (token) {
           localStorage.setItem("token", token);
           navigate("/");
+          setIsSubmitting(false);
         } else {
           setError("root.data", {
             type: "manual",
             message: "Invalid data",
           });
+          setIsSubmitting(false);
         }
       })
-      .catch((error) => console.error("Login error", error));
+      .catch((error) => {
+        console.error("Login error", error);
+        setIsSubmitting(false);
+      });
   }
 
   return (
@@ -39,6 +47,7 @@ export default function LoginPage() {
           <div className="flex flex-col w-full gap-2">
             <input
               type="text"
+              placeholder="username"
               className={clsx(
                 "bg-black border border-white/50 p-2 rounded-md",
                 { "bg-red-500/10 border-red-500": errors.username }
@@ -59,6 +68,7 @@ export default function LoginPage() {
           <div className="flex flex-col w-full gap-2">
             <input
               type="password"
+              placeholder="password"
               className={clsx(
                 "bg-black border border-white/50 p-2 rounded-md",
                 { "bg-red-500/10 border-red-500": errors.username }
@@ -79,8 +89,9 @@ export default function LoginPage() {
           <button
             className="rounded-md bg-white text-black font-bold p-2 "
             type="submit"
+            disabled={isSubmitting}
           >
-            Login
+            {isSubmitting ? "Loading..." : "Login"}
           </button>
           {errors.root?.data && (
             <span className="text-xs text-red-500 w-full text-center uppercase">
