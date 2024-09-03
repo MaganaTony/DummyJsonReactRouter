@@ -14,26 +14,25 @@ export default function LoginPage() {
   const navigate = useNavigate();
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  function onSubmit(data) {
-    setIsSubmitting(true);
-    loginUser(data.username, data.password)
-      .then((token) => {
-        if (token) {
-          localStorage.setItem("token", token);
-          navigate("/");
-          setIsSubmitting(false);
-        } else {
-          setError("root.data", {
-            type: "manual",
-            message: "Invalid data",
-          });
-          setIsSubmitting(false);
-        }
-      })
-      .catch((error) => {
-        console.error("Login error", error);
+  async function onSubmit(data) {
+    try {
+      setIsSubmitting(true);
+      const token = await loginUser(data.username, data.password);
+      if (token) {
+        localStorage.setItem("token", token);
+        navigate("/");
         setIsSubmitting(false);
-      });
+      } else {
+        setError("root.data", {
+          type: "manual",
+          message: "Invalid data",
+        });
+        setIsSubmitting(false);
+      }
+    } catch (error) {
+      console.error("Login error:", error);
+      setIsSubmitting(false);
+    }
   }
 
   return (
@@ -87,7 +86,7 @@ export default function LoginPage() {
             )}
           </div>
           <button
-            className="rounded-md bg-white text-black font-bold p-2 "
+            className="rounded-md bg-white text-black font-bold p-2 disabled:bg-neutral-600 disabled:cursor-progress"
             type="submit"
             disabled={isSubmitting}
           >
