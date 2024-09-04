@@ -20,7 +20,7 @@ export default function ProductDetail() {
             <header className="text-left w-full">
                 <Link className="cursor-pointer hover:text-cyan-500"
                 to={`/products/#product-${id}`}
-                >🤏 Regresar</Link>
+                >👈 Regresar</Link>
             </header>
                 <h1 className="text-2xl font-bold text-center">{product.title}</h1>
                 <img src={product.thumbnail} alt={product.title} 
