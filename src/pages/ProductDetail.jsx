@@ -1,19 +1,12 @@
 import { useEffect, useState } from "react"
-import { getProductbyID } from "../api"
 import { useParams } from "react-router-dom"
 import { Link } from "react-router-dom";
+import { useProduct } from "../hooks";
 
 
 export default function ProductDetail() {
     const { id } = useParams();
-    const [product, setProduct] = useState({})
-
-    useEffect(() => {
-        getProductbyID(id)
-            .then(data => setProduct(data))
-            .catch((error) => console.error("[get product error", error))
-
-    }, [])
+    const {product} = useProduct(id);
 
     return (
         <main className="flex flex-col gap-4 p-4 justify-center items-center">

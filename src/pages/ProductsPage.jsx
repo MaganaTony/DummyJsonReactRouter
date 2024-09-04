@@ -3,15 +3,10 @@ import { getAllProducts } from "../api"
 import { useState } from "react"
 import { Link } from "react-router-dom"
 import ProductCard from "../components/ProductCard"
+import { useProducts } from "../hooks"
 
 export default function ProductsPage() {
-    const [products, setProducts] = useState([])
-
-    useEffect(() => {
-        getAllProducts()
-            .then(data => setProducts(data))
-            .catch(error => console.error(`[get products error]`, error))
-    }, [])
+    const { products } = useProducts();        
 
     return (
         <main className="p-4 flex flex-col gap-8">
