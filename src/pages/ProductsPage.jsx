@@ -6,7 +6,7 @@ import ProductCard from "../components/ProductCard"
 import { useProducts } from "../hooks"
 
 export default function ProductsPage() {
-    const { products } = useProducts();        
+    const { products } = useProducts();
 
     return (
         <main className="p-4 flex flex-col gap-8">
@@ -15,11 +15,11 @@ export default function ProductsPage() {
                 {products.map((product, idx) => {
                     return (
                         <ProductCard
-                        key={`product-${idx}`}
-                        id={product.id}
-                        title={product.title}
-                        price={product.price}
-                        thumbnail={product.thumbnail}
+                            key={`product-${idx}`}
+                            id={product.id}
+                            title={product.title}
+                            price={product.price}
+                            thumbnail={product.thumbnail}
                         />
                     )
                 })

@@ -24,7 +24,7 @@ export function useProduct(id) {
     getProductbyID(id)
       .then((data) => setProduct(data))
       .catch((error) => console.error("[get product error]", error));
-  }, []);
+  }, [id]);
 
   return { product };
 }
